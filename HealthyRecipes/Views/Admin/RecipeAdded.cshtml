@@ -1,0 +1,94 @@
+﻿@model Recipe
+
+
+@{
+    ViewBag.Title = "Healthy Recipes | Recipe Added";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-9 " style="margin-top:100px">
+            <h4>
+                @Model.Name has been added
+            </h4>
+            <div>
+                <table class="table table-sm table-striped table-bordered">
+
+                    <tbody>
+                        <tr>
+                            <td class="col-6" colspan="2"><img src="@Model.ImageUrl" alt="@Model.Name" style="max-width:650px;max-height:400px;margin-left:auto;margin-right:auto" />  </td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Recipe Name</th>
+                            <td class="col-6">@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Recipe Author</th>
+                            <td class="col-6">
+                            @if (Model.UserId !=null) {
+                                
+                                @Model.UserId
+                            }
+                            else{
+                                @: No Author Added
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Category</th>
+                            <td class="col-6">@Model.Category </td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Cooking Time</th>
+                            <td class="col-6">@Model.CookingTime mins</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Date/time Created</th>
+                            <td class="col-6">@Model.Date</td>
+                        </tr>
+
+                        <tr>
+                            <th class="col-3">Ingredient 1</th>
+                            <td class="col-6">@Model.Ingredient1</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Ingredient 2</th>
+                            <td class="col-6">@Model.Ingredient2</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Ingredient 3</th>
+                            <td class="col-6">@Model.Ingredient3</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Ingredient 4</th>
+                            <td class="col-6">@Model.Ingredient4</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Ingredient 5</th>
+                            <td class="col-6">@Model.Ingredient5</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Ingredient 6</th>
+                            <td class="col-6">@Model.Ingredient6</td>
+                        </tr>
+                        <tr>
+                            <th class="col-3">Instructions</th>
+                            <td class="col-6">@Model.Instructions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <a class="btn btn-outline-secondary" asp-controller="Admin" asp-action="DataPage">View All Recipes</a>
+            <a class="btn btn-outline-secondary" asp-controller="Admin" asp-action="InsertPage">Continue Adding Recipes</a>
+        </div>
+    </div>
+</div>
+<footer class="card-footer" style="margin-top:20px">
+    <p class="float-right"><a href="#">Back to top</a></p>
+</footer>
+
+
+
+

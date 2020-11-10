@@ -1,0 +1,105 @@
+﻿@model RecipesListViewModel
+@{
+    ViewBag.Title = "Healthy Recipes | Data Page";
+    ViewBag.DataPage = "active";
+    Layout = "_AdminLayout";
+}
+<body>
+    <div class="row justify-content-center" style="margin-top:50px">
+        <div class="col-6 justify-content-center">
+            @if (TempData["message"] != null)
+            {<div class="alert alert-danger">@TempData["message"]</div>}
+        </div>
+    </div>
+    
+    <main role="main">
+        <h2 style="text-align:center;margin-top:10px">Delicio Recipes</h2>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    @foreach (var r in Model.Recipes)
+                    {
+                        <div class="col-md-4">
+
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" src="@r.ImageUrl" alt="@r.Name" style="max-width:350px;max-height:200px;">
+                                <div class="card-body">
+                                    <span class="card-text">
+                                        @if (r.Name == null)
+                                        {
+                                            @: No Name Added
+                                        }
+                                        else
+                                        {
+                                            @r.Name
+                                        }
+
+                                    </span>
+                                    <span class="card-text" style="float:right">
+                                        @if (r.RecipeAvgRating == 0)
+                                        {
+                                            @:  No Rating Added
+                                        }
+                                        else
+                                        {
+                                            @r.RecipeAvgRating.ToString("0.0")
+                                        }
+
+                                    </span>
+                                    <p class="card-text">
+                                        @if (r.Instructions == null)
+                                        {
+                                            @: No Instructions Added
+                                        }
+                                        else if (r.Instructions.Length < 60)
+                                        {
+                                            @r.Instructions
+                                        }
+
+                                        else
+                                        {
+                                            @r.Substring(r.Instructions)
+                                        }
+
+                                    </p>
+                                    <div>
+                                        <small class="text-muted">Created at: @r.Date</small>
+                                        <small class="text-muted" style="float:right">@r.CookingTime min</small>
+
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <form asp-action="Delete" asp-controller="Admin" method="post">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Admin" asp-action="DisplayPage" asp-route-id="@r.RecipeID">View</a>
+                                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Admin" asp-action="Edit" asp-route-recipeId="@r.RecipeID">Edit</a>
+                                                </div>
+                                                <input type="hidden" name="RecipeID" value="@r.RecipeID" />
+                                                <button type="submit" style="float:right;margin-left:150px;" class="btn btn-group btn-outline-danger  btn-sm">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div page-model="@Model.PagingInfo" page-action="DataPage" page-classes-enabled="true"
+                     page-class="btn" page-class-normal="btn-secondary"
+                     page-class-selected="btn-danger" page-url-category="@Model.CurrentCategory"
+                     class="btn-group pull-right m-1" style="float:right">
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer class="card-footer" style="margin-top:20px">
+        <p class="float-right"><a href="#">Back to top</a></p>
+    </footer>
+</body>
+
+
+
+

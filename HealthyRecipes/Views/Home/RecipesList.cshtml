@@ -1,0 +1,99 @@
+﻿@model RecipesListViewModel
+@{
+    ViewBag.Title = "Healthy Recipes | Recipes List";
+    ViewBag.DataPage = "active";
+    Layout = "_Layout";
+}
+<body>
+    <div class="row justify-content-center" style="margin-top:50px">
+        <div class="col-6 justify-content-center">
+            @if (TempData["message"] != null)
+            {<div class="alert alert-danger">@TempData["message"]</div>}
+        </div>
+    </div>
+
+    <main role="main">
+        <h2 style="text-align:center;margin-top:10px">Delicio Recipes</h2>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    @foreach (var r in Model.Recipes)
+                    {
+                        <div class="col-md-4">
+
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" src="@r.ImageUrl" alt="@r.Name" style="max-width:350px;max-height:200px;">
+                                <div class="card-body">
+                                    <span class="card-text">
+                                        @if (r.Name == null)
+                                        {
+                                            @: No Name Added
+                                        }
+                                        else
+                                        {
+                                            @r.Name
+                                        }
+                                    </span>
+                                    <span class="card-text" style="float:right">
+                                        @if (r.RecipeAvgRating == 0)
+                                        {
+                                            @:  No Rating Added
+                                        }
+                                        else
+                                        {
+                                            @:Rating: @r.RecipeAvgRating.ToString("0.0")
+                                        }
+
+                                    </span>
+                                    <p></p>
+                                    <p class="card-text">
+                                        @if (r.Instructions == null)
+                                        {
+                                            @: No Instructions Added
+                                        }
+                                        else if (r.Instructions.Length < 60)
+                                        {
+                                            @r.Instructions
+                                        }
+
+                                        else
+                                        {
+                                            @r.Substring(r.Instructions)
+                                        }
+
+                                    </p>
+                                    <div>
+                                        <small class="text-muted">@r.Date</small>
+                                        <small class="text-muted" style="float:right">@r.CookingTime min</small>
+
+                                    </div>
+                                    <div class="d-flex justify-content-around ">
+                                        <div class="btn-group " style="float:left">
+                                            <a style="float:left" asp-controller="Account" asp-action="Login" asp-route-id="@r.RecipeID">login to Add Review</a>
+                                        </div>
+                                        <div class="btn-group " style="float:right">
+                                            <a class="btn btn-md btn-outline-secondary" style="float:right" asp-controller="Home" asp-action="ViewRecipe" asp-route-id="@r.RecipeID">View</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div page-model="@Model.PagingInfo" page-action="RecipesList" page-classes-enabled="true"
+                     page-class="btn" page-class-normal="btn-secondary"
+                     page-class-selected="btn-danger" page-url-category="@Model.CurrentCategory"
+                     class="btn-group pull-right m-1" style="float:right">
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer class="card-footer" style="margin-top:20px">
+        <p class="float-right"><a href="#">Back to top</a></p>
+    </footer>
+</body>
+
+
+
+

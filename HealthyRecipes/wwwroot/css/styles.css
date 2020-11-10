@@ -1,0 +1,17 @@
+﻿body {
+    
+}
+#DisplayRecipe{
+    text-align:center;
+    margin-top:100px;
+
+}
+#placeholder{
+    float:left;
+    margin-top:150px;
+    margin:50px;
+    height:250px;
+    width:350px;
+}
+
+

@@ -1,0 +1,178 @@
+﻿@model Recipe
+
+@{
+    ViewBag.Title = "Healthy Recipes | Display page";
+    Layout = "_AdminLayout";
+}
+
+
+<div class="container " style="margin-top:50px">
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div class="col-6 justify-content-center">
+                @if (TempData["message"] != null)
+                {<div class="alert alert-danger">@TempData["message"]</div>}
+            </div>
+            <div class="card card-outline-warning m-2 p-2">
+                <div class="bg-faded p-1">
+                    <h2>
+
+                        <span class="badge badge-danger justify-content-center" style="margin-left:40%">
+                            @if (Model.Name == null)
+                            {
+                                @: no name
+                            }
+                            else
+                            {
+                                @Model.Name
+                            }
+                        </span>
+
+                    </h2>
+                </div>
+                <div>
+                    <h5><span class="badge badge-secondary float-left">Cooking Time: @Model.CookingTime mins</span></h5>
+                    <h5><span class="badge badge-secondary float-right">
+                                by   @if (Model.UserId != null)
+                                        {
+
+                                            @Model.UserId
+                                        }
+                                        else
+                                        {
+                                            @: No Author Added
+                                        }
+                            </span></h5>
+                    <br /><h6><span class="badge badge-secondary float-left">Laste updated: @Model.LastEdit</span></h6>
+
+                </div>
+
+                <div>
+                    <form asp-action="AddReview" asp-controller="Admin" method="post">
+                        <input type="hidden" name="RecipeID" value="@Model.RecipeID" />
+                        <h4>
+                            <a class="btn btn-outline-secondary" style="float:right" asp-controller="Admin" asp-action="AddReview" asp-route-id="@Model.RecipeID">Add Review</a>
+                        </h4>
+                    </form>
+                </div>
+
+                <br />
+                <div>
+                    Recipe Rating: @if (Model.Reviews.Count() > 0)
+                    {
+                        @Model.RecipeAvgRating.ToString("0.0")
+                    }
+                    else
+                    {
+                        @: Be the first to Add rating!
+                    }
+                </div>
+                <div style="margin-left:auto;margin-right:auto;max-width:650px;margin-bottom:20px;margin-top:20px">
+                    <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width:650px;max-height:400px;" />
+                </div>
+                <div>
+                    <table class="table  table-striped">
+                       
+                        <tr>
+                            <th colspan="2" style="text-align:center">
+                                Category
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"> @Model.Category </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center" colspan="2">
+                                Ingredients
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Model.Ingredient1
+                            </td>
+                            <td>
+                                @Model.Ingredient2
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Model.Ingredient3
+                            </td>
+                            <td>
+                                @Model.Ingredient4
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Model.Ingredient5
+                            </td>
+                            <td>
+                                @Model.Ingredient6
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h4><span class="badge badge-secondary" style="margin-left:45%">Instructions</span></h4>
+                <div class="card-text p-1 ">@Model.Instructions</div>
+            </div>
+            <a class="btn btn-outline-secondary float-md-right" asp-controller="Admin" asp-action="DataPage">View All Recipe</a>
+
+        </div>
+    </div>
+    <div class="row justify-content-center">
+       
+        <div class="col-9 ">
+            <h3 class="h3 text-center" style="margin-top:20px">Reviews</h3>
+            @if (Model.Reviews.Count == 0)
+            {
+
+                @: <p class="lead text-center"> No Reviews Added</p>
+            }
+            else
+            {
+                @foreach (var review in Model.Reviews)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title" style="float:right">Recipe Rating: 
+                            @if (Model.Reviews.Count() > 0)
+                            {
+                                @review.RecipeRating
+                            }
+                            else
+                            {
+                               @: Be the first to add Rating!
+                            }
+                            </h6>
+                            <h5 class="card-title">@review.Title</h5>
+                            <small style="float:right" class="card-title">by @review.UserId</small>
+                            <h6 class="card-subtitle mb-2 text-muted">@Model.Name</h6>
+
+                            <p class="card-text">
+                                @review.ReviewDescription
+                            </p>
+                            <div class="btn-group" style="float:right">
+                                <form asp-action="DelReview" asp-controller="Admin" method="post">
+                                    <a class=" btn btn-sm btn-outline-secondary" asp-controller="Admin" asp-action="EditReview" asp-route-reviewId="@review.ReviewID">Edit</a>
+                                    <input type="hidden" value="@review.ReviewID" name="ReviewID" />
+                                    <input type="hidden" value="@Model.RecipeID" name="RecipeID" />
+                                    <button class=" btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                }
+            }
+        </div>
+
+    </div>
+ 
+       
+</div>
+
+<footer class="card-footer" style="margin-top:20PX">
+    <p class="float-right"><a href="#">Back to top</a></p>
+</footer>
